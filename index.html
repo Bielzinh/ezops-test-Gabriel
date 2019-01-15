@@ -26,16 +26,34 @@
 <div class="container">
 <div class="jumbotron alert-success">
               <form>
-                    <div class="form-row">
+        <div class="form-row">
         <label for="name">Nome</label>
         <input type="name" id = "name" class="form-control" placeholder="Digite seu nome">
         <br>
         </div>
-        <div class="form-group">
+        <div class="form-row">
+            <label for="sexo">Sexo</label>
+            <input type="sexo" id = "sexo" class="form-control" placeholder="Digite seu sexo">
+            <br>
+            </div>
+        <div class="form-row">
         <label for="name">Mensagem</label>
         <textarea id = "message" class="form-control" placeholder="Digite sua senha"></textarea>
-        <br>
     </div>
+    <div class="form-group">
+    <label for="mendefinidas">Mensagens pré-definidas</label>
+    <br>
+        <select id = "mendefinidas"  class="custom-select" required onchange="getSelectValue();" >
+          <option  value="Olá ! Tudo bem com vocês ?">Cumprimento</option>
+          <option  value="Muito Obrigado !">Agradecimento</option>
+          <option  value="Vou sair, tchau !">Despedida</option>
+        </select>
+        <div class="invalid-feedback">Example invalid custom select feedback</div>
+      </div>
+  
+
+
+    <br>
         <button id="send" class="btn btn-success">Enviar</button>
     </form>
 </div>
@@ -48,27 +66,32 @@
 </div>
 
 <script>
+    function getSelectValue()
+    {
+        var  selectedValue = document.getElementById("mendefinidas").value;
+        console.log(selectedValue);
+    }
    var socket = io();
     $(() => {
         $("#send").click(()=>{
-            sendMessage({name: $("#name").val(), message: $("#message").val()});
+            sendMessage({name: $("#name").val(), message: $("#message").val(), sexo: $("#sexo").val(), mendefinidas: $("#mendefinidas").val()});
         })
-
+        mendefinidas
         getMessages()
     })
 
     socket.on('message', addMessages)
 
     function addMessages(message){
-        $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`)
+        $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.sexo} </p> <p> ${message.message} </p> <p> ${message.mendefinidas} </p>`)
     }
-
+//mostra todas as mensagens salvas do banco na tela
     function getMessages(){
       $.get('http://localhost:3000/messages', (data) => {
         data.forEach(addMessages);
       })
     }
-
+// salva a mensagem enviada pelo usuário
     function sendMessage(message){
       $.post('http://localhost:3000/messages', message)
     }

@@ -11,7 +11,9 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 var Message = mongoose.model('Message',{
   name : String,
-  message : String
+  message : String,
+  sexo : String
+
 })
 
 var dbUrl = 'mongodb://gabriel:Gabriel2@ds255794.mlab.com:55794/node-chat'
@@ -25,7 +27,7 @@ app.get('/messages', (req, res) => {
 
 app.get('/messages/:user', (req, res) => {
   var user = req.params.user
-  Message.find({name: user},(err, messages)=> {
+  Message.find({name: user}, (err, sexo),(err, messages)=> {
     res.send(messages);
   })
 })
