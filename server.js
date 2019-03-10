@@ -15,12 +15,7 @@ var Message = mongoose.model('Message',{
   mendefinidas: String
 })
 
-var dbUrl = {
-  host: 'chatdb.cl9r1j6eu8jg.us-east-2.rds.amazonaws.com',
-  user: 'gabriel',
-  password: 'Gabriel2',
-  database: 'chatdb',
-};
+var dbUrl = 'mongodb://gabriel:Gabriel2@ds255794.mlab.com:55794/node-chat'
 
 app.get('/messages', (req, res) => {
   Message.find({},(err, messages)=> {
